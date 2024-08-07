@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
 function PreloadLinkStylesheetPlugin() {
   return {
@@ -18,6 +18,14 @@ function PreloadLinkStylesheetPlugin() {
   };
 }
 
-export default defineConfig({
-  plugins: [PreloadLinkStylesheetPlugin()],
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
+
+  return {
+    base: env.VITE_BASE_HREF,
+    plugins: [PreloadLinkStylesheetPlugin()],
+    build: {
+      target: 'es2015',
+    },
+  };
 });
