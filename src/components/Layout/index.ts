@@ -4,20 +4,18 @@ import { lazy } from '../../utils/lazy';
 
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
+import './DesktopMenu';
 
 @customElement('app-layout')
 export class Layout extends LitElement {
-  @state()
-  private drawerOpen = false;
-
-  @state()
-  private isMobile = false;
+  @state() private drawerOpen = false;
+  @state() private isMobile = false;
 
   private mediaQueryList: MediaQueryList;
 
   constructor() {
     super();
-    this.mediaQueryList = window.matchMedia('(max-width: 720px)');
+    this.mediaQueryList = window.matchMedia('(max-width: 782px)');
     this.isMobile = this.mediaQueryList.matches;
     this.handleMediaQueryChange = this.handleMediaQueryChange.bind(this);
   }
@@ -69,6 +67,10 @@ export class Layout extends LitElement {
     sl-drawer::part(panel) {
       --size: 180px;
     }
+
+    sl-drawer::part(body) {
+      --body-spacing: 0;
+    }
   `;
 
   render() {
@@ -101,7 +103,9 @@ export class Layout extends LitElement {
               no-header="true"
               ?open="${this.drawerOpen}"
               @sl-after-hide="${() => (this.drawerOpen = false)}">
-              <app-mobile-menu></app-mobile-menu>
+              <app-mobile-menu
+                .drawerOpen=${this.drawerOpen}
+                @drawer-toggled=${() => (this.drawerOpen = false)}></app-mobile-menu>
             </sl-drawer>
           `
         : ''}
