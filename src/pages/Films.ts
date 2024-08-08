@@ -13,9 +13,3 @@ export class FilmsPage extends LitElement {
     `;
   }
 }
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'app-films': FilmsPage;
-  }
-}

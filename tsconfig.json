@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@shoelace-style/shoelace": ["./node_modules/@shoelace-style/shoelace"],
+    },
     "target": "ES2020",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
