@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && npm run test && vite build",
+    "build": "tsc && vite build",
+    "build:docker": "./build_docker_image.sh",
     "preview": "vite preview",
     "test": "wdio run ./wdio.conf.ts",
     "start": "vite preview --port $PORT"

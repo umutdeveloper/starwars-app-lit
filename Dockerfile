@@ -14,6 +14,9 @@ RUN npm install
 COPY . .
 
 # Build the application
+ENV SELENIUM_HOSTNAME=localhost
+ENV SELENIUM_PORT=4444
+RUN npm run test
 RUN npm run build
 
 # Use a lightweight web server to serve the built application
