@@ -50,6 +50,7 @@ export abstract class SwapiListPage<T extends Base> extends ConnectedLitElement 
   connectedCallback() {
     super.connectedCallback();
     store.dispatch(this.sliceDetails.fetchList(this.pagination));
+    window.scrollTo(0, 0);
   }
 
   disconnectedCallback() {
