@@ -18,6 +18,7 @@ const createSliceDetails = <T extends Base>(apiPath: string, mapper: Mapper<T>) 
 };
 
 export type SliceDetails<T extends Base> = ReturnType<typeof createSliceDetails<T>>;
+export type SliceName = 'films' | 'people' | 'planets' | 'species' | 'starships' | 'vehicles';
 
 export const films = createSliceDetails('films', mapToFilm);
 export const people = createSliceDetails('people', mapToPerson);

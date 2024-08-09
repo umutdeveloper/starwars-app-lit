@@ -1,10 +1,12 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft, Draft } from 'immer';
 import { JSONResponse, APIStatus } from '../../models/types';
 import { getString } from '../../utils/types';
 import { mapToState } from './mappers/listMapper';
-import { SwapiListJSONResponse, SwapiState } from './models/base';
+import { Base, SwapiListJSONResponse, SwapiState } from './models/base';
 import { AsyncThunkConfig } from './types';
+import { RootState } from '../../store';
+import { SwapiListPageProps } from '../../hocs/SwapiListPage';
 
 const BASE_SWAPI_URL = import.meta.env.VITE_BASE_SWAPI_URL;
 
@@ -182,4 +184,26 @@ export const createSliceFor = <T>(apiPath: string, resultMapper: (result: JSONRe
   });
 
   return { slice, fetchList: fetchListThunk, fetchItem: fetchItemThunk, fetchItems: fetchItemsThunk };
+};
+
+export const createSwapiListMapToStateProps = <T extends Base>(selector: (state: RootState) => SwapiState<T>) => {
+  const selectResults = (state: SwapiState<T>) => state.results;
+  const selectPageResults = (state: SwapiState<T>) => state.pageResults;
+  const selectPageItemResults = createSelector([selectResults, selectPageResults], (results, pageResults) => {
+    return pageResults.map(resultId => results[resultId]);
+  });
+  const mapStateToProps = (state: RootState) => {
+    const listState = selector(state);
+    return {
+      pageResults: selectPageItemResults(listState),
+      hasPrev: listState.hasPrev,
+      hasNext: listState.hasNext,
+      count: listState.count,
+      pagination: listState.pagination,
+      status: listState.status,
+      error: listState.error,
+    } as SwapiListPageProps<T>;
+  };
+
+  return mapStateToProps;
 };

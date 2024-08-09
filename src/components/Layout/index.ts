@@ -71,6 +71,18 @@ export class Layout extends LitElement {
     sl-drawer::part(body) {
       --body-spacing: 0;
     }
+
+    .container {
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+      padding: 0 16px;
+
+      @media screen and (min-width: 1172px) {
+        max-width: 1140px;
+        padding: 0;
+      }
+    }
   `;
 
   render() {
@@ -109,7 +121,9 @@ export class Layout extends LitElement {
             </sl-drawer>
           `
         : ''}
-      <slot></slot>
+      <div class="container">
+        <slot></slot>
+      </div>
     `;
   }
 }
